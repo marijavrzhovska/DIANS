@@ -20,13 +20,14 @@ const List = () => {
             <body>
             <div id="">
                 {wineries.flatMap(winery => (
-                    <div className="bracket">
-                        <p>Id: {winery.id}</p>
-                        <p>Name: {winery.name}</p>
-                        <p>Surname: {winery.surname}</p>
-                        <p>Age: {winery.age}</p>
-                        <p>City: {winery.city}</p>
-                    </div>
+                <div className="bracket">
+                    <p>Име: {winery.name} Град: {winery.city}</p>
+                    <p>Адреса: {winery.street} ({winery.latitude} {winery.longitude}) </p>
+                    <p>Работно време: {winery.workHours}</p>
+                    <p>Контакт број: {winery.phone}</p>
+                    <p>Вебстрана: <a href={winery.website}>{winery.website}</a></p>
+                    <p>Опис: {winery.description}</p>
+                </div>
                 ))}
             </div>
             </body>
@@ -44,13 +45,14 @@ const List = () => {
             <body>
             <div>
                 {wineries.flatMap(winery => (
-                    <div className="bracket">
-                        <p>Id: {winery.id}</p>
-                        <p>Name: {winery.name}</p>
-                        <p>Surname: {winery.surname}</p>
-                        <p>Age: {winery.age}</p>
-                        <p>City: {winery.city}</p>
-                    </div>
+                <div className="bracket">
+                    <p>Име: {winery.name} Град: {winery.city}</p>
+                    <p>Адреса: {winery.street} ({winery.latitude} {winery.longitude}) </p>
+                    <p>Работно време: {winery.workHours}</p>
+                    <p>Контакт број: {winery.phone}</p>
+                    <p>Вебстрана: <a href={winery.website}>{winery.website}</a></p>
+                    <p>Опис: {winery.description}</p>
+                </div>
                 ))}
             </div>
             </body>
