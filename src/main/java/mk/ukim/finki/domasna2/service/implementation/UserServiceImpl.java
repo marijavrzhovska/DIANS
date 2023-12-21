@@ -1,4 +1,4 @@
-package mk.ukim.finki.domasna2.service.implementations;
+package mk.ukim.finki.domasna2.service.implementation;
 
 import mk.ukim.finki.domasna2.model.User;
 import mk.ukim.finki.domasna2.model.exceptions.InvalidUsernameException;
