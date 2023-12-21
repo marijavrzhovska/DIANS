@@ -1,14 +1,15 @@
-package mk.ukim.finki.domasna2.service;
+package mk.ukim.finki.domasna2.service.implementations;
 
 import mk.ukim.finki.domasna2.model.Winery;
 import mk.ukim.finki.domasna2.repository.WineryRepository;
+import mk.ukim.finki.domasna2.service.WineryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class WineryServiceImpl implements WineryService{
+public class WineryServiceImpl implements WineryService {
     private final WineryRepository repository;
 
     public WineryServiceImpl(WineryRepository repository)
