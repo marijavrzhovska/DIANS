@@ -1,73 +1,42 @@
 package mk.ukim.finki.domasna2.model;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import mk.ukim.finki.domasna2.model.enumerations.UserStatus;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
-@Table(name = "Users")
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "winery_users")
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Id
     private String username;
-    private String email;
+    private String name;
+    private String surname;
     private String password;
 
-    public User(String username, String email, String password) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_winery_list")
+    private List<Winery> wineryList;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Rate> rates;
+
+    public User() {
+    }
+
+    public User(String username, String name, String surname, String password) {
         this.username = username;
-        this.email = email;
+        this.name = name;
+        this.surname = surname;
         this.password = password;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(this.id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+        this.wineryList = new ArrayList<>();
+        this.status = UserStatus.LOGGED_OUT;
+        this.rates = new ArrayList<>();
     }
 }
