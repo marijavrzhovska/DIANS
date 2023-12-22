@@ -3,7 +3,39 @@ import logo from '../pictures/logo.jpg'
 import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
 import {Link} from 'react-router-dom'
+import {useEffect, useState} from "react";
 const Search = () =>{
+    const [city,setCity] = useState('')
+    const [name,setName] = useState('')
+    const [nameMessage,setNameMessage] = useState('')
+    const [cityMessage,setCityMessage] = useState('')
+    const [wineries,setWineries] = useState([]);
+    const handleSubmit = event => {
+        event.preventDefault();
+        if (name) {
+            setNameMessage(`${name}`);
+            fetch(`http://localhost:8080/api/name/${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    setWineries(data);
+                });
+        } else if (city) {
+            setCityMessage(`${city}`);
+            fetch(`http://localhost:8080/api/city/${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    setWineries(data);
+                });
+        }
+    };
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/all')
+            .then(response => response.json())
+            .then(data => {
+                setWineries(data);
+            });
+    }, []);
     return(
         <body>
         <div id="nav-bar">
@@ -28,36 +60,31 @@ const Search = () =>{
         <div id="filters">
             <form id="form">
                 <label htmlFor="name">Име</label>
-                <input type="text" id="name"/>
+                <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={event => setName(event.target.value)}
+                />
                 <label htmlFor="city">Град</label>
-                <input type="text" id="city"/>
-                <button>Барај</button>
+                <input
+                    type="text"
+                    id="city"
+                    value={city}
+                    onChange={event => setCity(event.target.value)}
+                />
+                <button onClick={handleSubmit}>Барај</button>
             </form>
             <div id="results">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
+                {wineries.map(winery => (
+                    <div key={winery.id} className="winery-result">
+                        <p>Име: {winery.name}</p>
+                        <p>Град: {winery.city}</p>
+                        {/*<button onClick={() => navigateToWinery(winery.id)}>*/}
+                        {/*    Повеќе информации*/}
+                        {/*</button>*/}
+                    </div>
+                ))}
             </div>
         </div>
         </div>

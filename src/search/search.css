@@ -88,3 +88,31 @@ p {
     overflow-y: scroll;
     height: 700px;
 }
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.winery-result {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 300px;
+}
+
+.winery-result p {
+    margin: 5px 0;
+}
+
+.winery-result button {
+    background-color: grey;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+.winery-result button:hover {
+    background-color: dimgray;
+}
