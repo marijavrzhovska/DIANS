@@ -88,11 +88,23 @@
     margin-right: 10px;
     width: 250px;
 }
-#email-label{
+#name-label{
+    display: inline-block;
+    font-size: 30px;
+    margin-right: 200px;
+}
+#name{
+    display: inline;
+    border: 1px solid black;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: 250px;
+}
+#surname-label{
     display: inline-block;
     font-size: 30px;
 }
-#email{
+#surname{
     display: inline;
     border: 1px solid black;
     margin-bottom: 10px;
@@ -113,6 +125,7 @@
 #confirm-label{
     display: inline-block;
     font-size: 30px;
+    margin-right: 30px;
 }
 #confirm{
     display: inline;

@@ -3,7 +3,27 @@ import logo from '../pictures/logo.jpg'
 import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
 import {Link} from 'react-router-dom'
+import {GoogleMap,useLoadScript,MarkerF} from '@react-google-maps/api'
+const libraries=['places'];
+const mapContainerStyle = {
+    width: '104vh',
+    height: '104vh',
+}
+const center = {
+    lat: 41.6086,
+    lng: 21.7453,
+}
 const Search = () =>{
+    const {isLoaded,loadError} = useLoadScript({
+        googleMapsApiKey: 'AIzaSyDaqcuqPLMXH1NOKt3fkYpdJb4tmttxfP8',
+        libraries,
+    })
+    if(loadError){
+        return <div>Error loading maps</div>
+    }
+    if(!isLoaded){
+        return <div>Loading maps</div>
+    }
     return(
         <body>
         <div id="nav-bar">
@@ -60,6 +80,17 @@ const Search = () =>{
                     sed similique.</p>
             </div>
         </div>
+            <div id="map">
+                <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={8}
+                    center={center}>
+                    <MarkerF position={{
+                        lat:41.2852,
+                        lng:21.7835,
+                    }}/>
+                </GoogleMap>
+            </div>
         </div>
         <div className="footer">
             <img src={reserved} id="reserved"/>

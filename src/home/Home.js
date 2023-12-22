@@ -35,19 +35,19 @@ const Home = () => {
         <div className="shortcuts">
             <ul className="nav-shortcuts">
                 <li className="shortcut" id="shortcut-skopje">
-                    <a className="link" href="../filter/filter.html">Skopje</a>
+                    <a className="link" href="../search">Skopje</a>
                 </li>
                 <li className="shortcut" id="shortcut-veles">
-                    <a className="link" href="../filter/filter.html">Veles</a>
+                    <a className="link" href="../search">Veles</a>
                 </li>
                 <li className="shortcut" id="shortcut-kavadarci">
-                    <a className="link" href="../filter/filter.html">Kavadarci</a>
+                    <a className="link" href="../search">Kavadarci</a>
                 </li>
                 <li className="shortcut" id="shortcut-negotino">
-                    <a className="link" href="../filter/filter.html">Negotino</a>
+                    <a className="link" href="../search">Negotino</a>
                 </li>
                 <li className="shortcut" id="shortcut-ohrid">
-                    <a className="link" href="../filter/filter.html">Ohrid</a>
+                    <a className="link" href="../search">Ohrid</a>
                 </li>
             </ul>
         </div>
