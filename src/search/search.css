@@ -98,8 +98,6 @@ p {
 .winery-result p {
     margin: 5px 0;
     display: inline-block;
-}
-.winery-result p:first-of-type {
     margin-right: 10px;
 }
 

@@ -85,9 +85,12 @@ const Search = () =>{
                     <div key={winery.id} className="winery-result">
                         <p>Име: {winery.name}</p>
                         <p>Град: {winery.city}</p>
-                        {/*<button onClick={() => navigateToWinery(winery.id)}>*/}
-                        {/*    Повеќе информации*/}
-                        {/*</button>*/}
+                        <Link to="/winery"
+                            state={{
+                                name: winery.name,
+                                lng: winery.longitude,
+                                lat: winery.latitude,
+                            }}>Посети</Link>
                     </div>
                 ))}
             </div>
