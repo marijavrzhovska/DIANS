@@ -19,8 +19,6 @@ const Search = () =>{
     const [city,setCity] = useState('')
     const [name,setName] = useState('')
     const [wineries,setWineries] = useState([]);
-    const [user,setUser] = useState('');
-    const location = useLocation();
     const handleSubmit = event => {
         event.preventDefault();
         if (name) {
