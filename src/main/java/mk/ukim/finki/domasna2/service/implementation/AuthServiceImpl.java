@@ -5,6 +5,7 @@ import mk.ukim.finki.domasna2.model.User;
 import mk.ukim.finki.domasna2.model.exceptions.*;
 import mk.ukim.finki.domasna2.repository.UserRepository;
 import mk.ukim.finki.domasna2.service.AuthService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
 @Service
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(UserRepository userRepository) {
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private boolean credentialsInvalid(String username, String password) {
@@ -45,7 +48,10 @@ public class AuthServiceImpl implements AuthService {
             throw new UsernameAlreadyExistsException(username);
         }
 
-        User user = new User(username, name, surname, password);
+
+        String passwordEncoder = this.passwordEncoder.encode(password);
+
+        User user = new User(username, name, surname, passwordEncoder);
         return userRepository.save(user);
     }
 
