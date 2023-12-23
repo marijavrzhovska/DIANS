@@ -28,7 +28,7 @@ const Register = () => {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
             });
-            alert('Registration successful! ' + response.data);
+            alert(response.data);
             window.location.href="/login"
             // Handle success, e.g., redirect to another page
         } catch (error) {

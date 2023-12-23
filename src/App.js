@@ -8,6 +8,7 @@ import Search from "./search/Search";
 import About_Us from './about_us/About_Us'
 import Login from './login/Login'
 import Register from './register/Register'
+import Winery from './winery/Winery'
 function App() {
   return (
       <Router>
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/about_us" element={<About_Us/>}/>
+            <Route path="/winery" element={<Winery/>}/>
         </Routes>
       </Router>
   );
