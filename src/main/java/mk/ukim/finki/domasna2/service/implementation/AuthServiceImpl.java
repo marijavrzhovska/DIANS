@@ -30,10 +30,12 @@ public class AuthServiceImpl implements AuthService {
             throw new InvalidArgumentsException();
         }
 
-        String encodedPassword = this.passwordEncoder.encode(password);
+        User user =  userRepository.findByUsername(username).orElseThrow(() -> new InvalidUsernameException(username));
 
-        User user =  userRepository.findByUsernameAndPassword(username, encodedPassword)
-                .orElseThrow(InvalidUserCredentialsException::new);
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new InvalidUserCredentialsException();
+        }
+
         user.setStatus(UserStatus.LOGGED_IN);
         return this.userRepository.save(user);
     }
