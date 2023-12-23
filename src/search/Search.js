@@ -4,16 +4,43 @@ import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
 import {Link} from 'react-router-dom'
 import {GoogleMap,useLoadScript,MarkerF} from '@react-google-maps/api'
+import {useEffect, useState} from "react";
 const libraries=['places'];
 const mapContainerStyle = {
     width: '104vh',
-    height: '104vh',
+    height: '800px',
 }
 const center = {
     lat: 41.6086,
     lng: 21.7453,
 }
 const Search = () =>{
+    const [city,setCity] = useState('')
+    const [name,setName] = useState('')
+    const [wineries,setWineries] = useState([]);
+    const handleSubmit = event => {
+        event.preventDefault();
+        if (name) {
+            fetch(`http://localhost:8080/api/name/${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    setWineries(data);
+                });
+        } else if (city) {
+            fetch(`http://localhost:8080/api/city/${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    setWineries(data);
+                });
+        }
+    };
+    useEffect(() => {
+        fetch('http://localhost:8080/api/all')
+            .then(response => response.json())
+            .then(data => {
+                setWineries(data);
+            });
+    }, []);
     const {isLoaded,loadError} = useLoadScript({
         googleMapsApiKey: 'AIzaSyDaqcuqPLMXH1NOKt3fkYpdJb4tmttxfP8',
         libraries,
@@ -48,47 +75,34 @@ const Search = () =>{
         <div id="filters">
             <form id="form">
                 <label htmlFor="name">Име</label>
-                <input type="text" id="name"/>
+                <input type="text" id="name" value={name} onChange={event=>setName(event.target.value)}/>
                 <label htmlFor="city">Град</label>
-                <input type="text" id="city"/>
-                <button>Барај</button>
+                <input type="text" id="city" value={city} onChange={event=>setCity(event.target.value)}/>
+                <button onClick={handleSubmit}>Барај</button>
             </form>
             <div id="results">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque aut dicta dolor
-                    enim fugiat ipsam magnam repellat, repudiandae! Accusamus amet dolore, eius mollitia nisi nobis qui
-                    sed similique.</p>
+                {wineries.map(winery => (
+                    <div key={winery.id} className="winery-result">
+                        <p>Име: {winery.name}</p>
+                        <p>Град: {winery.city}</p>
+                        {/*<button onClick={() => navigateToWinery(winery.id)}>*/}
+                        {/*    Повеќе информации*/}
+                        {/*</button>*/}
+                    </div>
+                ))}
             </div>
         </div>
             <div id="map">
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
-                    zoom={8}
+                    zoom={9}
                     center={center}>
-                    <MarkerF position={{
-                        lat:41.2852,
-                        lng:21.7835,
-                    }}/>
+                    {wineries.map(winery => (
+                        <MarkerF position={{
+                            lat: winery.latitude,
+                            lng: winery.longitude,
+                        }}></MarkerF>
+                    ))}
                 </GoogleMap>
             </div>
         </div>
