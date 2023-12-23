@@ -2,9 +2,10 @@ import './search.css'
 import logo from '../pictures/logo.jpg'
 import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import {GoogleMap,useLoadScript,MarkerF} from '@react-google-maps/api'
 import {useEffect, useState} from "react";
+import axios from "axios";
 const libraries=['places'];
 const mapContainerStyle = {
     width: '104vh',
@@ -18,6 +19,8 @@ const Search = () =>{
     const [city,setCity] = useState('')
     const [name,setName] = useState('')
     const [wineries,setWineries] = useState([]);
+    const [user,setUser] = useState('');
+    const location = useLocation();
     const handleSubmit = event => {
         event.preventDefault();
         if (name) {
@@ -34,6 +37,21 @@ const Search = () =>{
                 });
         }
     };
+    const Logout = async (event) => {
+        const formData = new FormData();
+        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
+        const response = await axios.post(
+            'http://localhost:8080/api/logout',
+        formData,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        );
+        sessionStorage.removeItem('user');
+        alert(response.data)
+        window.location.href="/search";
+    }
     useEffect(() => {
         fetch('http://localhost:8080/api/all')
             .then(response => response.json())
@@ -66,6 +84,14 @@ const Search = () =>{
                     <li className="nav-item">
                         <Link to="/about_us" className="nav-link">За Нас</Link>
                     </li>
+                {sessionStorage.getItem('user') ? (
+                    <div>
+                        <li className="nav-item">Najaven</li>
+                        <li><button onClick={Logout}>Odlogiraj</button></li>
+                    </div>
+                ) : (
+                    <li className="nav-item">Nenajaven</li>
+                )}
                     <li className="nav-item">
                         <Link to="/login" className="nav-link">Најава</Link>
                     </li>

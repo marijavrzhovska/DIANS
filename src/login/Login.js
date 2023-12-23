@@ -4,8 +4,45 @@ import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
 import background from '../pictures/background.jpg'
 import {Link} from "react-router-dom";
+import {useState} from "react";
+import axios from "axios";
 
 const Login = () => {
+    const [username,setUsername] = useState("");
+    const [password,setPassword] = useState("");
+    const [user,setUser] = useState("");
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        try {
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("password", password);
+
+            const response = await axios.post(
+                'http://localhost:8080/api/login',
+                formData,{
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                }
+            );
+
+            if (response.data.status === 'LOGGED_IN') {
+                const user = response.data;
+                alert('Login successful');
+                console.log(user)
+                sessionStorage.setItem('user', JSON.stringify(user));
+                window.location.href="/search";
+                // Handle success, e.g., redirect to another page or update global authentication state
+            } else {
+                alert('Login failed');
+                // Handle unsuccessful login, e.g., display an error message
+            }
+        } catch (error) {
+            alert('Login failed: ' + error.response.data);
+            // Handle error, e.g., display an error message
+        }
+    };
     return(
         <body>
         <div id="nav-bar">
@@ -27,11 +64,11 @@ const Login = () => {
             </ul>
         </div>
         <div id="main">
-            <form id="login-box">
+            <form id="login-box" onSubmit={handleLogin}>
                 <label htmlFor="login-username" id="username-label">Корисничко име</label>
-                <input type="text" id="login-username" required="true"/>
+                <input type="text" id="login-username" required="true" onChange={e=>setUsername(e.target.value)}/>
                 <label htmlFor="login-password" id="password-label">Лозинка</label>
-                <input type="password" id="login-password" required="true"/>
+                <input type="password" id="login-password" required="true" onChange={e=>setPassword(e.target.value)}/>
                 <button type="submit" id="login">Логирај се</button>
                 <Link to="/register" id="redirect">Регистрирај се</Link>
             </form>
