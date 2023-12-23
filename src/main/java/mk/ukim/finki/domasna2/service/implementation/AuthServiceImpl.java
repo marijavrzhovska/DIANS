@@ -30,7 +30,9 @@ public class AuthServiceImpl implements AuthService {
             throw new InvalidArgumentsException();
         }
 
-        User user =  userRepository.findByUsernameAndPassword(username, password)
+        String encodedPassword = this.passwordEncoder.encode(password);
+
+        User user =  userRepository.findByUsernameAndPassword(username, encodedPassword)
                 .orElseThrow(InvalidUserCredentialsException::new);
         user.setStatus(UserStatus.LOGGED_IN);
         return this.userRepository.save(user);
