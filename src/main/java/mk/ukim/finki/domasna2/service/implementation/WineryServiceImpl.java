@@ -8,7 +8,6 @@ import mk.ukim.finki.domasna2.service.WineryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WineryServiceImpl implements WineryService{
@@ -40,12 +39,12 @@ public class WineryServiceImpl implements WineryService{
 
     @Override
     public List<Winery> findByName(String name) {
-        return wineryRepository.findByName(name);
+        return wineryRepository.findByNameContaining("%"+name+"%");
     }
 
     @Override
     public List<Winery> findByCity(String city) {
-        return wineryRepository.findByCity(city);
+        return wineryRepository.findByCityContaining("%"+city+"%");
     }
 
     @Override
