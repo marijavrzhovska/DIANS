@@ -8,6 +8,7 @@ import mk.ukim.finki.domasna2.service.WineryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WineryServiceImpl implements WineryService{
@@ -32,9 +33,10 @@ public class WineryServiceImpl implements WineryService{
     }
 
     @Override
-    public Winery findById(Long id)
+    public Optional<Winery> findById(Long id)
     {
-        return wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
+        Winery winery = wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
+        return Optional.of(winery);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class WineryServiceImpl implements WineryService{
     }
 
     @Override
-    public Winery addCommentToWinery(Long id, String commentText) {
+    public Optional<Winery> addCommentToWinery(Long id, String commentText) {
         Winery winery = this.wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
 
         Comment newComment = new Comment(commentText);
@@ -56,12 +58,14 @@ public class WineryServiceImpl implements WineryService{
         this.commentRepository.save(newComment);
 
         winery.getComments().add(newComment);
-        return this.wineryRepository.save(winery);
+        this.wineryRepository.save(winery);
+
+        return findById(winery.getId());
 
     }
 
     @Override
-    public Winery addRatingToWinery(Long wineryId, String username, Integer rate) {
+    public Optional<Winery> addRatingToWinery(Long wineryId, String username, Integer rate) {
         Winery winery = this.wineryRepository.findById(wineryId).orElseThrow(() -> new WineryDoesNotExistsException(wineryId));
         User user = this.userService.findByUsername(username);
 
@@ -76,6 +80,8 @@ public class WineryServiceImpl implements WineryService{
         winery.getRates().add(newRate);
         int sumRates = winery.getRates().stream().mapToInt(r -> rate).sum();
         winery.setRating((double)sumRates/winery.getRates().size());
-        return this.wineryRepository.save(winery);
+        this.wineryRepository.save(winery);
+
+        return findById(winery.getId());
     }
 }

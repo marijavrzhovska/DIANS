@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface WineryService {
     List<Winery> findAll();
 
-    Winery findById(Long id);
+    Optional<Winery> findById(Long id);
 
     List<Winery> findByName(String name);
     List<Winery> findByCity(String city);
-    Winery addCommentToWinery(Long id, String comment);
+    Optional<Winery> addCommentToWinery(Long id, String comment);
 
-    Winery addRatingToWinery(Long id, String username, Integer rating);
+    Optional<Winery> addRatingToWinery(Long id, String username, Integer rating);
 }
