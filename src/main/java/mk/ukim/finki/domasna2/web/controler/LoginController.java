@@ -29,7 +29,6 @@ public class LoginController {
     public ResponseEntity<Object> login(HttpServletRequest request){
         try{
             User user = this.authService.login(request.getParameter("username"), request.getParameter("password"));
-            user.setStatus(UserStatus.LOGGED_IN);
             return ResponseEntity.ok(user); //koga ke se logira korisnikot, vo react treba da se zacuvaat
             // negovite informacii vo SESIJA za da vazi nasekade niz aplikacijata dodeka ne se odlogira!!!!!
             //otkkao ke se logira uspesno treba samo redirect kon stranata so vinariite

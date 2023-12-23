@@ -27,8 +27,10 @@ public class AuthServiceImpl implements AuthService {
             throw new InvalidArgumentsException();
         }
 
-        return userRepository.findByUsernameAndPassword(username, password)
+        User user =  userRepository.findByUsernameAndPassword(username, password)
                 .orElseThrow(InvalidUserCredentialsException::new);
+        user.setStatus(UserStatus.LOGGED_IN);
+        return this.userRepository.save(user);
     }
 
     @Override
@@ -51,7 +53,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void logout(String username) {
-        this.userRepository.findByUsername(username).get().setStatus(UserStatus.LOGGED_OUT);
+        User user = this.userRepository.findByUsername(username).get();
+        user.setStatus(UserStatus.LOGGED_OUT);
+        this.userRepository.save(user);
     }
 
     @Override
