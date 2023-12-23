@@ -33,9 +33,9 @@ public class WineryServiceImpl implements WineryService{
     }
 
     @Override
-    public Optional<Winery> findById(Long id)
+    public Winery findById(Long id)
     {
-        return wineryRepository.findById(id);
+        return wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class WineryServiceImpl implements WineryService{
     }
 
     @Override
-    public Optional<Winery> addCommentToWinery(Long id, String commentText) {
+    public Winery addCommentToWinery(Long id, String commentText) {
         Winery winery = this.wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
 
         Comment newComment = new Comment(commentText);
@@ -57,13 +57,12 @@ public class WineryServiceImpl implements WineryService{
         this.commentRepository.save(newComment);
 
         winery.getComments().add(newComment);
-        this.wineryRepository.save(winery);
+        return this.wineryRepository.save(winery);
 
-        return Optional.of(winery);
     }
 
     @Override
-    public Optional<Winery> addRatingToWinery(Long wineryId, String username, Integer rate) {
+    public Winery addRatingToWinery(Long wineryId, String username, Integer rate) {
         Winery winery = this.wineryRepository.findById(wineryId).orElseThrow(() -> new WineryDoesNotExistsException(wineryId));
         User user = this.userService.findByUsername(username);
 
@@ -72,16 +71,12 @@ public class WineryServiceImpl implements WineryService{
         newRate.setUser(user);
         this.ratingRepository.save(newRate);
 
-        winery.getRates().add(newRate);
-        int sumRates = winery.getRates().stream().mapToInt(r -> rate).sum();
-        winery.setRating((double)sumRates/winery.getRates().size());
-        this.wineryRepository.save(winery);
-
         user.getRates().add(newRate);
         this.userService.save(user);
 
-        return Optional.of(winery);
+        winery.getRates().add(newRate);
+        int sumRates = winery.getRates().stream().mapToInt(r -> rate).sum();
+        winery.setRating((double)sumRates/winery.getRates().size());
+        return this.wineryRepository.save(winery);
     }
-
-
 }
