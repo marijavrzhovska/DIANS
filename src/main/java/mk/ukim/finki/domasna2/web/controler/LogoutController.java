@@ -20,8 +20,8 @@ public class LogoutController {
     //koga se logira korisnikot so samoto stavanje na user kako atribut na sesijata,
     // go imame userot sekade niz html-ovite se dodeka ne se odlogira zatoa vo toj moment treba da se izbirse od sesijata
     //ili ako se prekine aplikacijata
-    @GetMapping
-    public ResponseEntity<String> logout(@PathVariable String username) {
+    @PostMapping
+    public ResponseEntity<String> logout(@RequestParam String username) {
         authService.logout(username);
         return ResponseEntity.ok("Logout successful");
         //vo react se brise userot od sesijata i redirect kon vinariite
