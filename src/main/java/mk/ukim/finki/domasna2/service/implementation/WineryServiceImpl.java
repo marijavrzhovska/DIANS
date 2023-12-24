@@ -1,5 +1,6 @@
 package mk.ukim.finki.domasna2.service.implementation;
 
+import jakarta.transaction.Transactional;
 import mk.ukim.finki.domasna2.model.*;
 import mk.ukim.finki.domasna2.model.exceptions.*;
 import mk.ukim.finki.domasna2.repository.*;
@@ -50,6 +51,7 @@ public class WineryServiceImpl implements WineryService{
     }
 
     @Override
+    @Transactional
     public Optional<Winery> addCommentToWinery(Long id, String commentText) {
         Winery winery = this.wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
 
@@ -65,6 +67,7 @@ public class WineryServiceImpl implements WineryService{
     }
 
     @Override
+    @Transactional
     public Optional<Winery> addRatingToWinery(Long wineryId, Integer rate)
     {
         Winery winery = this.wineryRepository.findById(wineryId).orElseThrow(() -> new WineryDoesNotExistsException(wineryId));
@@ -80,6 +83,7 @@ public class WineryServiceImpl implements WineryService{
         winery.getRates().add(newRate);
         int sumRates = winery.getRates().stream().mapToInt(r -> rate).sum();
         winery.setRating((double)sumRates/winery.getRates().size());
+
         this.wineryRepository.save(winery);
 
         return findById(winery.getId());
