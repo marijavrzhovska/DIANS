@@ -57,7 +57,6 @@ const Search = () =>{
         e.preventDefault();
         const formData = new FormData();
         formData.append('id',id);
-        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username);
         formData.append('rate',rating);
         try {
             const response = await axios.post('http://localhost:8080/api/add-rating',formData,{
@@ -65,10 +64,10 @@ const Search = () =>{
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
             })
-            console.log(response.data);
+            alert(response.data)
             // Handle success, e.g., redirect to another page
         } catch (error) {
-            console.log('Registration failed: ' + error.response.data);
+            console.log('Failed to add rating: ' + error.response.data);
             // Handle error, e.g., display an error message
         }
     }

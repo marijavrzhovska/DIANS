@@ -14,7 +14,10 @@ const mapContainerStyle = {
 }
 const Winery = () =>{
     const location = useLocation();
+    const [id,setId] = useState('');
     const [winery,setWinery] = useState("");
+    const [comment,setComment] = useState('');
+    const [commentList,setCommentList] = useState([]);
     const Logout = async () => {
         const formData = new FormData();
         formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
@@ -30,6 +33,26 @@ const Winery = () =>{
         alert(response.data)
         window.location.href="/";
     }
+    const submitComment = async(e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('id',id);
+        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
+        formData.append('comment',comment);
+        try {
+            const response = await axios.post('http://localhost:8080/api/add-comment',formData,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            alert(response.data)
+            window.location.href="/winery";
+            // Handle success, e.g., redirect to another page
+        } catch (error) {
+            console.log('Failed to add comment: ' + error.response.data);
+            // Handle error, e.g., display an error message
+        }
+    }
     function InfoRedirect() {
         window.location.href="/user"
     }
@@ -38,6 +61,13 @@ const Winery = () =>{
             .then(response => response.json())
             .then(data => {
                 setWinery(data);
+            });
+    }, []);
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/${location.state.id}/comments`)
+            .then(response => response.json())
+            .then(data => {
+                setCommentList(data);
             });
     }, []);
     const {isLoaded,loadError} = useLoadScript({
@@ -85,6 +115,7 @@ const Winery = () =>{
         <div id="main">
                 <div id="desc">
                     <p>Име: {winery.name} Град: {winery.city}</p>
+                    <p>Оцена: {winery.rating}</p>
                     <p>Адреса: {winery.street}</p>
                     <p>Работно време: {winery.workHours}</p>
                     <p>Контакт број: {winery.phone}</p>
@@ -93,15 +124,22 @@ const Winery = () =>{
                     {sessionStorage.getItem('user') ? (
                         <div>
                             <p>Додади коментар:</p>
-                            <form id="add-comment">
-                                <input type="text" id="comment-box"/>
+                            <form id="add-comment" onSubmit={submitComment}>
+                                <input type="text" id="comment-box" onChange={e=>{
+                                    setComment(e.target.value);
+                                    setId(winery.id);
+                                }}/>
                                 <button type="submit" id="comment-button">Објави</button>
                             </form>
                         </div>
                     ) : (null)}
                     <div id="comments">
                         <p>Коментари:</p>
-
+                        {commentList.map(com => (
+                            <li key={com.ID} className="usercomment">
+                                <p>{com.comment}</p>
+                            </li>
+                        ))}
                     </div>
                 </div>
             <div id="map">
