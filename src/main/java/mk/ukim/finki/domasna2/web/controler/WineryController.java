@@ -44,7 +44,7 @@ public class WineryController {
     @GetMapping("/{id}/comments")
     public ResponseEntity<Object> getCommentsForWinery(@PathVariable Long id){
         try{
-            return new ResponseEntity<>(wineryService.findById(id).get().getComments(), HttpStatus.OK);
+            return new ResponseEntity<>(wineryService.getCommentsForWinery(id), HttpStatus.OK);
         }catch (WineryDoesNotExistsException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

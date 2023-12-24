@@ -91,4 +91,10 @@ public class WineryServiceImpl implements WineryService{
 
         return findById(winery.getId());
     }
+
+    @Override
+    public List<Comment> getCommentsForWinery(Long wineryId) {
+        Winery winery = this.wineryRepository.findById(wineryId).orElseThrow(() -> new WineryDoesNotExistsException(wineryId));
+        return commentRepository.findAllByWinery(winery);
+    }
 }

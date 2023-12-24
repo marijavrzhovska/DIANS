@@ -1,5 +1,6 @@
 package mk.ukim.finki.domasna2.service;
 
+import mk.ukim.finki.domasna2.model.Comment;
 import mk.ukim.finki.domasna2.model.Winery;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface WineryService {
     Optional<Winery> addCommentToWinery(Long id, String username, String comment);
 
     Optional<Winery> addRatingToWinery(Long id, Integer rating);
+    List<Comment> getCommentsForWinery(Long wineryId);
 }
