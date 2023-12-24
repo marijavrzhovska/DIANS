@@ -2,7 +2,8 @@ import './search.css'
 import logo from '../pictures/logo.jpg'
 import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
-import {Link, useLocation} from 'react-router-dom'
+import user from '../pictures/user.png'
+import {Link} from 'react-router-dom'
 import {GoogleMap,useLoadScript,MarkerF} from '@react-google-maps/api'
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -35,7 +36,7 @@ const Search = () =>{
                 });
         }
     };
-    const Logout = async (event) => {
+    const Logout = async () => {
         const formData = new FormData();
         formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
         const response = await axios.post(
@@ -48,7 +49,10 @@ const Search = () =>{
         );
         sessionStorage.removeItem('user');
         alert(response.data)
-        window.location.href="/search";
+        window.location.href="/";
+    }
+    function InfoRedirect() {
+        window.location.href="/user"
     }
     useEffect(() => {
         fetch('http://localhost:8080/api/all')
@@ -83,16 +87,20 @@ const Search = () =>{
                         <Link to="/about_us" className="nav-link">За Нас</Link>
                     </li>
                 {sessionStorage.getItem('user') ? (
-                    <div>
-                        <li className="nav-item">Najaven</li>
-                        <li><button onClick={Logout}>Odlogiraj</button></li>
-                    </div>
+                        <div id="user-info" onClick={InfoRedirect}>
+                            <img src={user} id="user-icon" alt=""/>
+                            <h3 id="user-name">{JSON.parse(sessionStorage.getItem('user')).name}</h3>
+                        </div>
+                ) : (null)}
+                {sessionStorage.getItem('user') ? (
+                    <li className="nav-item" onClick={Logout}>
+                        <h3 className="nav-link" id="logout">Одјава</h3>
+                    </li>
                 ) : (
-                    <li className="nav-item">Nenajaven</li>
-                )}
                     <li className="nav-item">
                         <Link to="/login" className="nav-link">Најава</Link>
                     </li>
+                )}
             </ul>
         </div>
         <div id="main">
@@ -111,7 +119,7 @@ const Search = () =>{
                         <p>Град: {winery.city}</p>
                         <Link to="/winery"
                             state={{
-                                name: winery.name,
+                                id: winery.id,
                                 lng: winery.longitude,
                                 lat: winery.latitude,
                             }}>Посети</Link>

@@ -116,3 +116,25 @@ p {
 #city{
     margin-right: 10px;
 }
+#user-icon{
+    width: 50px;
+    height: 60px;
+}
+#user-info{
+    display: inline;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+#user-name{
+    display: inline-block;
+    font-size: 30px;
+    margin-left: 5px;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+#logout{
+    color: white !important;
+}
+#logout:hover{
+    color: royalblue !important;
+}

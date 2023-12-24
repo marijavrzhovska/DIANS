@@ -5,12 +5,32 @@ import pic2 from '../pictures/country.jpg'
 import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
 import {Link} from "react-router-dom";
+import user from "../pictures/user.png";
+import axios from "axios";
 const Home = () => {
+    const Logout = async () => {
+        const formData = new FormData();
+        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
+        const response = await axios.post(
+            'http://localhost:8080/api/logout',
+            formData,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        );
+        sessionStorage.removeItem('user');
+        alert(response.data)
+        window.location.href="/";
+    }
+    function InfoRedirect() {
+        window.location.href="/user"
+    }
     return(
         <body>
-        <div id="nav-bar">
-            <ul className="nav justify-content-end">
-                <img src={logo} id="nav-logo" alt=""/>
+            <div id="nav-bar">
+                <ul className="nav justify-content-end">
+                    <img src={logo} id="nav-logo" alt=""/>
                     <h1 id="nav-logo-text">Vinopedija</h1>
                     <li className="nav-item">
                         <Link to="/" className="nav-link">Дома</Link>
@@ -21,11 +41,23 @@ const Home = () => {
                     <li className="nav-item">
                         <Link to="/about_us" className="nav-link">За Нас</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link to="/login" className="nav-link">Најава</Link>
-                    </li>
-            </ul>
-        </div>
+                    {sessionStorage.getItem('user') ? (
+                        <div id="user-info" onClick={InfoRedirect}>
+                            <img src={user} id="user-icon" alt=""/>
+                            <h3 id="user-name">{JSON.parse(sessionStorage.getItem('user')).name}</h3>
+                        </div>
+                    ) : (null)}
+                    {sessionStorage.getItem('user') ? (
+                        <li className="nav-item" onClick={Logout}>
+                            <h3 className="nav-link" id="logout">Одјава</h3>
+                        </li>
+                    ) : (
+                        <li className="nav-item">
+                            <Link to="/login" className="nav-link">Најава</Link>
+                        </li>
+                    )}
+                </ul>
+            </div>
         <div className="main">
             <img src={pic1} id="pic1" alt=""/>
                 <p id="img-text1">Пронајдете ја вашата винарија,</p>

@@ -5,6 +5,8 @@ import gmail from '../pictures/gmail.png'
 import {Link, useLocation} from 'react-router-dom'
 import {GoogleMap,useLoadScript,MarkerF} from '@react-google-maps/api'
 import {useEffect, useState} from "react";
+import axios from "axios";
+import user from "../pictures/user.png";
 const libraries=['places'];
 const mapContainerStyle = {
     width: '104vh',
@@ -12,14 +14,30 @@ const mapContainerStyle = {
 }
 const Winery = () =>{
     const location = useLocation();
-    const [city,setCity] = useState('')
-    const [name,setName] = useState('')
-    const [wineries,setWineries] = useState([]);
+    const [winery,setWinery] = useState("");
+    const Logout = async () => {
+        const formData = new FormData();
+        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
+        const response = await axios.post(
+            'http://localhost:8080/api/logout',
+            formData,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        );
+        sessionStorage.removeItem('user');
+        alert(response.data)
+        window.location.href="/";
+    }
+    function InfoRedirect() {
+        window.location.href="/user"
+    }
     useEffect(() => {
-        fetch(`http://localhost:8080/api/name/${location.state.name}`)
+        fetch(`http://localhost:8080/api/${location.state.id}`)
             .then(response => response.json())
             .then(data => {
-                setWineries(data);
+                setWinery(data);
             });
     }, []);
     const {isLoaded,loadError} = useLoadScript({
@@ -47,13 +65,24 @@ const Winery = () =>{
                 <li className="nav-item">
                     <Link to="/about_us" className="nav-link">За Нас</Link>
                 </li>
-                <li className="nav-item">
-                    <Link to="/login" className="nav-link">Најава</Link>
-                </li>
+                {sessionStorage.getItem('user') ? (
+                    <div id="user-info" onClick={InfoRedirect}>
+                        <img src={user} id="user-icon" alt=""/>
+                        <h3 id="user-name">{JSON.parse(sessionStorage.getItem('user')).name}</h3>
+                    </div>
+                ) : (null)}
+                {sessionStorage.getItem('user') ? (
+                    <li className="nav-item" onClick={Logout}>
+                        <h3 className="nav-link" id="logout">Одјава</h3>
+                    </li>
+                ) : (
+                    <li className="nav-item">
+                        <Link to="/login" className="nav-link">Најава</Link>
+                    </li>
+                )}
             </ul>
         </div>
         <div id="main">
-            {wineries.flatMap(winery => (
                 <div id="desc">
                     <p>Име: {winery.name} Град: {winery.city}</p>
                     <p>Адреса: {winery.street}</p>
@@ -62,7 +91,6 @@ const Winery = () =>{
                     <p>Вебстрана: <a href={winery.website}>{winery.website}</a></p>
                     <p>Опис: {winery.description}</p>
                 </div>
-            ))}
             <div id="map">
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}

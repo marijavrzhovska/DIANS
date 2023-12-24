@@ -70,5 +70,7 @@ p {
 #desc{
     width: 50%;
     height: 80%;
-    overflow-y: scroll
+    overflow-y: scroll;
+    padding-top: 10px;
+    padding-right: 10px;
 }

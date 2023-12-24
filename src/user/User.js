@@ -1,13 +1,12 @@
-import './about_us.css'
+import './user.css'
 import logo from '../pictures/logo.jpg'
 import reserved from '../pictures/reserved.png'
 import gmail from '../pictures/gmail.png'
 import background from '../pictures/background.jpg'
 import {Link} from "react-router-dom";
-import user from "../pictures/user.png";
 import axios from "axios";
-import User from "../user/User";
-const About_Us = () => {
+import user from "../pictures/user.png";
+const User = () => {
     const Logout = async () => {
         const formData = new FormData();
         formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
@@ -23,28 +22,23 @@ const About_Us = () => {
         alert(response.data)
         window.location.href="/";
     }
-
-    function InfoRedirect() {
-        window.location.href="/user"
-    }
-
     return(
         <body>
         <div id="nav-bar">
             <ul className="nav justify-content-end">
                 <img src={logo} id="nav-logo"/>
-                    <h1 id="nav-logo-text">Vinopedija</h1>
-                    <li className="nav-item">
-                        <Link to="/" className="nav-link">Дома</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/search" className="nav-link">Пребарај</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/about_us" className="nav-link">За Нас</Link>
-                    </li>
+                <h1 id="nav-logo-text">Vinopedija</h1>
+                <li className="nav-item">
+                    <Link to="/" className="nav-link">Дома</Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/search" className="nav-link">Пребарај</Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/about_us" className="nav-link">За Нас</Link>
+                </li>
                 {sessionStorage.getItem('user') ? (
-                    <div id="user-info" onClick={InfoRedirect}>
+                    <div id="user-info">
                         <img src={user} id="user-icon" alt=""/>
                         <h3 id="user-name">{JSON.parse(sessionStorage.getItem('user')).name}</h3>
                     </div>
@@ -75,10 +69,10 @@ const About_Us = () => {
         </div>
         <div className="footer">
             <img src={reserved} id="reserved"/>
-                <p id="reserved-text">Сите права се задржани.</p>
-                <a href="https://www.gmail.com" target="_blank">
-                    <img src={gmail} id="gmail"/>
-                </a>
+            <p id="reserved-text">Сите права се задржани.</p>
+            <a href="https://www.gmail.com" target="_blank">
+                <img src={gmail} id="gmail"/>
+            </a>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -86,4 +80,4 @@ const About_Us = () => {
         </body>
     )
 }
-export default About_Us;
+export default User;
