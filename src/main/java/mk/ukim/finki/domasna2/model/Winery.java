@@ -1,10 +1,7 @@
 package mk.ukim.finki.domasna2.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,23 +18,16 @@ public class Winery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+
     @Column(unique = true)
-    @NotEmpty
-    @Positive
     private String name;
 
-    @NotNull
+
     @Column(unique = true)
-    @NotEmpty
-    @Positive
     private Double longitude;
 
 
-    @NotNull
     @Column(unique = true)
-    @NotEmpty
-    @Positive
     private Double latitude;
 
     private String city;
@@ -48,9 +38,12 @@ public class Winery {
 
     @Column(length = 700)
     private String description;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "winery")
     private List<Comment> comments;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "winery")
     private List<Rate> rates;
 
