@@ -1,0 +1,144 @@
+#nav-bar{
+    border-bottom: 3px solid black;
+}
+.nav-item{
+    justify-content: end;
+    font-size: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 3px solid black;
+    margin-right: 20px;
+    background-color: #8C52FF;
+    border-radius: 30px;
+}
+.nav-link{
+    color: white;
+}
+.nav-link:visited{
+    color: white;
+}
+#nav-logo-text{
+    font-family: "Brush Script MT";
+    margin-top:30px;
+    margin-left:10px;
+    margin-right: 30px;
+}
+#nav-logo{
+    width:80px;
+    height:80px;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left: 20px;
+}
+.main{
+    display: inline-flex;
+    border-bottom: 3px solid black;
+}
+#pic1{
+    margin-left: -1px;
+}
+#pic2{
+    width: 882px;
+}
+.nav-shortcuts{
+    margin-top: -3px;
+    margin-bottom: 0px;
+    list-style-type: none;
+    display: inline-flex;
+    padding-left: 0px;
+}
+.shortcut{
+    width: 346px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+#shortcut-skopje{
+    background: url("../pictures/skopje.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+#shortcut-veles{
+    background: url("../pictures/veles.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+#shortcut-kavadarci{
+    background: url("../pictures/kavadarci.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+#shortcut-negotino{
+    background: url("../pictures/negotino.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+#shortcut-ohrid{
+    background: url("../pictures/ohrid.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+.link{
+    text-decoration: none;
+    font-size: 40px;
+    color: white;
+    font-family: "Brush Script MT";
+}
+#reserved{
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 7px;
+}
+#reserved-text{
+    display: inline;
+    margin-left: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    color: black;
+    position: absolute;
+    margin-top: 10px;
+}
+.footer{
+    background-color: #8C52FF;
+}
+#gmail{
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+#img-text1{
+    color: black;
+    position: absolute;
+    font-size: 50px;
+    top: 20%;
+    left: 25px;
+}
+#img-text2{
+    color: black;
+    position: absolute;
+    font-size: 50px;
+    top: 26%;
+    left: 25px;
+}
+#user-icon{
+    width: 50px;
+    height: 60px;
+}
+#user-info{
+    display: inline;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+#user-name{
+    display: inline-block;
+    font-size: 30px;
+    margin-left: 5px;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+#logout{
+    color: white !important;
+}
+#logout:hover{
+    color: royalblue !important;
+}
