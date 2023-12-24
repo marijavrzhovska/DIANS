@@ -18,7 +18,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "winery_id")
-    @JsonBackReference
     private Winery winery;
 
     public Comment(String comment) {
