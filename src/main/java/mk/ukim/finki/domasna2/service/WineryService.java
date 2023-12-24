@@ -12,7 +12,7 @@ public interface WineryService {
 
     List<Winery> findByName(String name);
     List<Winery> findByCity(String city);
-    Optional<Winery> addCommentToWinery(Long id, String comment);
+    Optional<Winery> addCommentToWinery(Long id, String username, String comment);
 
     Optional<Winery> addRatingToWinery(Long id, Integer rating);
 }

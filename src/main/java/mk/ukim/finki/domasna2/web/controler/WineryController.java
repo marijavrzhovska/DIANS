@@ -68,9 +68,9 @@ public class WineryController {
     // koj ke go povika ovoj kontroler commentWinery, mene tuka mi treba idto zatoa neka bide vo hidden input pole vo formata
 
     @PostMapping("/add-comment")
-    public ResponseEntity<String> commentWinery(@RequestParam Long id, @RequestParam String comment){
+    public ResponseEntity<String> commentWinery(@RequestParam Long id, @RequestParam String username, @RequestParam String comment){
         try{
-            Optional<Winery> winery = wineryService.addCommentToWinery(id, comment);
+            Optional<Winery> winery = wineryService.addCommentToWinery(id, username, comment);
             return ResponseEntity.ok("Comment added successfully");
         } catch(WineryDoesNotExistsException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());

@@ -52,12 +52,16 @@ public class WineryServiceImpl implements WineryService{
 
     @Override
     @Transactional
-    public Optional<Winery> addCommentToWinery(Long id, String commentText) {
+    public Optional<Winery> addCommentToWinery(Long id, String username, String commentText) {
         Winery winery = this.wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
+        User user = this.userService.findByUsername(username);
 
         Comment newComment = new Comment(commentText);
         newComment.setWinery(winery);
         this.commentRepository.save(newComment);
+
+        user.getComments().add(newComment);
+        this.userService.save(user);
 
         winery.getComments().add(newComment);
         this.wineryRepository.save(winery);
