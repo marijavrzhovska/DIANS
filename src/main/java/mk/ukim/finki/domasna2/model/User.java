@@ -24,7 +24,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

@@ -40,7 +40,7 @@ public class Winery {
     private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "winery")
+    @OneToMany(mappedBy = "winery", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @JsonIgnore
