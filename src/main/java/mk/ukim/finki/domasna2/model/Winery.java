@@ -48,11 +48,11 @@ public class Winery {
 
     @Column(length = 700)
     private String description;
-    @OneToMany(mappedBy = "winery", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "winery", cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "winery", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "winery", cascade=CascadeType.ALL)
     private List<Rate> rates;
 
     private Double rating;

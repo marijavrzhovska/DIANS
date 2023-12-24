@@ -2,6 +2,7 @@ package mk.ukim.finki.domasna2.web.controler;
 
 import mk.ukim.finki.domasna2.model.User;
 import mk.ukim.finki.domasna2.model.Winery;
+import mk.ukim.finki.domasna2.model.exceptions.WineryDoesNotExistsException;
 import mk.ukim.finki.domasna2.service.UserService;
 import mk.ukim.finki.domasna2.service.WineryService;
 import org.springframework.http.HttpStatus;
@@ -67,10 +68,13 @@ public class WineryController {
     // koj ke go povika ovoj kontroler commentWinery, mene tuka mi treba idto zatoa neka bide vo hidden input pole vo formata
 
     @PostMapping("/add-comment")
-    public ResponseEntity<Winery> commentWinery(@RequestParam Long id, @RequestParam String comment){
-        Optional<Winery> winery = wineryService.addCommentToWinery(id, comment);
-        return winery.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<String> commentWinery(@RequestParam Long id, @RequestParam String comment){
+        try{
+            Optional<Winery> winery = wineryService.addCommentToWinery(id, comment);
+            return ResponseEntity.ok("Comment added successfully");
+        } catch(WineryDoesNotExistsException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     //istoto sto i za komentar vazi i za rating
@@ -79,9 +83,12 @@ public class WineryController {
     //treba da se pratat id na vinarijata, username na korisnikot, i izbraniot rate odnosno moze kako
     // i path varijabli no ke vidime so frontendot toa
     @PostMapping("/add-rating")
-    public ResponseEntity<Winery> rateWinery(@RequestParam Long id, @RequestParam String username,  @RequestParam Integer rate){
-        Optional<Winery> winery = wineryService.addRatingToWinery(id, username, rate);
-        return winery.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<String> rateWinery(@RequestParam Long id, @RequestParam String username,  @RequestParam Integer rate){
+        try{
+            Optional<Winery> winery = wineryService.addRatingToWinery(id,username,rate);
+            return ResponseEntity.ok("Rate added successfully");
+        } catch(WineryDoesNotExistsException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 }

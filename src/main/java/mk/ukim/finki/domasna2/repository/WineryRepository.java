@@ -15,7 +15,7 @@ public interface WineryRepository extends JpaRepository<Winery, Long> {
     @Override
     Optional<Winery> findById(Long id);
 
-    List<Winery> findByNameContaining(String name);
-    List<Winery> findByCityContaining(String city);
+    List<Winery> findByName(String name);
+    List<Winery> findByCity(String city);
 
 }

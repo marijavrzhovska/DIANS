@@ -41,12 +41,12 @@ public class WineryServiceImpl implements WineryService{
 
     @Override
     public List<Winery> findByName(String name) {
-        return wineryRepository.findByNameContaining("%"+name+"%");
+        return wineryRepository.findByName(name);
     }
 
     @Override
     public List<Winery> findByCity(String city) {
-        return wineryRepository.findByCityContaining("%"+city+"%");
+        return wineryRepository.findByCity(city);
     }
 
     @Override
