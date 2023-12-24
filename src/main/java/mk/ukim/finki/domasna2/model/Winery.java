@@ -40,10 +40,6 @@ public class Winery {
     @Positive
     private Double latitude;
 
-
-    @OneToMany(mappedBy = "winery", cascade=CascadeType.ALL)
-    private List<Rate> rates;
-
     private String city;
     private String street;
     private String phone;
@@ -52,9 +48,11 @@ public class Winery {
 
     @Column(length = 700)
     private String description;
-    @OneToMany(mappedBy = "winery", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "winery")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "winery")
+    private List<Rate> rates;
 
     private Double rating;
 

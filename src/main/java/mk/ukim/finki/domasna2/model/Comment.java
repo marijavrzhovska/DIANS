@@ -1,6 +1,5 @@
 package mk.ukim.finki.domasna2.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,6 +18,10 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "winery_id")
     private Winery winery;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Comment(String comment) {
         this.comment = comment;

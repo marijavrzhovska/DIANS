@@ -24,6 +24,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    private List<Rate> rates;
 
@@ -38,5 +41,6 @@ public class User {
         this.wineryList = new ArrayList<>();
         this.status = UserStatus.LOGGED_OUT;
 //        this.rates = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 }

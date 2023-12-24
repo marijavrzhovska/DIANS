@@ -14,5 +14,5 @@ public interface WineryService {
     List<Winery> findByCity(String city);
     Optional<Winery> addCommentToWinery(Long id, String comment);
 
-    Optional<Winery> addRatingToWinery(Long id, String username, Integer rating);
+    Optional<Winery> addRatingToWinery(Long id, Integer rating);
 }

@@ -83,9 +83,9 @@ public class WineryController {
     //treba da se pratat id na vinarijata, username na korisnikot, i izbraniot rate odnosno moze kako
     // i path varijabli no ke vidime so frontendot toa
     @PostMapping("/add-rating")
-    public ResponseEntity<String> rateWinery(@RequestParam Long id, @RequestParam String username,  @RequestParam Integer rate){
+    public ResponseEntity<String> rateWinery(@RequestParam Long id, @RequestParam Integer rate){
         try{
-            Optional<Winery> winery = wineryService.addRatingToWinery(id,username,rate);
+            Optional<Winery> winery = wineryService.addRatingToWinery(id, rate);
             return ResponseEntity.ok("Rate added successfully");
         } catch(WineryDoesNotExistsException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());

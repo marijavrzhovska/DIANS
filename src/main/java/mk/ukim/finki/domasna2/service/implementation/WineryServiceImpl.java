@@ -65,18 +65,17 @@ public class WineryServiceImpl implements WineryService{
     }
 
     @Override
-    public Optional<Winery> addRatingToWinery(Long wineryId, String username, Integer rate)
+    public Optional<Winery> addRatingToWinery(Long wineryId, Integer rate)
     {
         Winery winery = this.wineryRepository.findById(wineryId).orElseThrow(() -> new WineryDoesNotExistsException(wineryId));
-        User user = this.userService.findByUsername(username);
+//        User user = this.userService.findByUsername(username);
 
         Rate newRate = new Rate(rate);
         newRate.setWinery(winery);
-        newRate.setUser(user);
         this.ratingRepository.save(newRate);
 
-        //user.getRates().add(newRate);
-        this.userService.save(user);
+//        user.getRates().add(newRate);
+//        this.userService.save(user);
 
         winery.getRates().add(newRate);
         int sumRates = winery.getRates().stream().mapToInt(r -> rate).sum();
