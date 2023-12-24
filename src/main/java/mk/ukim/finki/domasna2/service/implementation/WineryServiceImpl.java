@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import mk.ukim.finki.domasna2.model.*;
 import mk.ukim.finki.domasna2.model.exceptions.*;
 import mk.ukim.finki.domasna2.repository.*;
-import mk.ukim.finki.domasna2.service.UserService;
 import mk.ukim.finki.domasna2.service.WineryService;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +15,15 @@ public class WineryServiceImpl implements WineryService{
     private final WineryRepository wineryRepository;
     private final CommentRepository commentRepository;
     private final RatingRepository ratingRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     public WineryServiceImpl(WineryRepository wineryRepository, CommentRepository commentRepository,
-                             RatingRepository ratingRepository, UserService userService)
+                             RatingRepository ratingRepository, UserRepository userRepository)
     {
         this.wineryRepository = wineryRepository;
         this.commentRepository = commentRepository;
         this.ratingRepository = ratingRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -54,14 +53,14 @@ public class WineryServiceImpl implements WineryService{
     @Transactional
     public Optional<Winery> addCommentToWinery(Long id, String username, String commentText) {
         Winery winery = this.wineryRepository.findById(id).orElseThrow(() -> new WineryDoesNotExistsException(id));
-        User user = this.userService.findByUsername(username);
+        User user = this.userRepository.findByUsername(username).orElseThrow(() -> new InvalidUsernameException(username));
 
         Comment newComment = new Comment(commentText);
         newComment.setWinery(winery);
         this.commentRepository.save(newComment);
 
         user.getComments().add(newComment);
-        this.userService.save(user);
+        this.userRepository.save(user);
 
         winery.getComments().add(newComment);
         this.wineryRepository.save(winery);

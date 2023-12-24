@@ -2,6 +2,7 @@ package mk.ukim.finki.domasna2.web.controler;
 
 import mk.ukim.finki.domasna2.model.User;
 import mk.ukim.finki.domasna2.model.Winery;
+import mk.ukim.finki.domasna2.model.exceptions.InvalidUsernameException;
 import mk.ukim.finki.domasna2.model.exceptions.WineryDoesNotExistsException;
 import mk.ukim.finki.domasna2.service.UserService;
 import mk.ukim.finki.domasna2.service.WineryService;
@@ -72,7 +73,7 @@ public class WineryController {
         try{
             Optional<Winery> winery = wineryService.addCommentToWinery(id, username, comment);
             return ResponseEntity.ok("Comment added successfully");
-        } catch(WineryDoesNotExistsException ex){
+        } catch(WineryDoesNotExistsException | InvalidUsernameException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
