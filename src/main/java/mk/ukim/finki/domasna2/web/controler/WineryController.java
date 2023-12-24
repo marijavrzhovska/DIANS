@@ -1,5 +1,6 @@
 package mk.ukim.finki.domasna2.web.controler;
 
+import mk.ukim.finki.domasna2.model.Comment;
 import mk.ukim.finki.domasna2.model.User;
 import mk.ukim.finki.domasna2.model.Winery;
 import mk.ukim.finki.domasna2.model.exceptions.InvalidUsernameException;
@@ -40,7 +41,14 @@ public class WineryController {
         return new ResponseEntity<>(userService.findByUsername(username).getWineryList(), HttpStatus.OK);
     }
 
-
+    @GetMapping("/comments")
+    public ResponseEntity<Object> getCommentsForWinery(@PathVariable Long id){
+        try{
+            return new ResponseEntity<>(wineryService.findById(id).get().getComments(), HttpStatus.OK);
+        }catch (  WineryDoesNotExistsException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Winery> getWineryById(@PathVariable Long id)
