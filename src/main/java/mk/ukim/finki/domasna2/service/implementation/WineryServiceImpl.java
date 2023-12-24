@@ -81,7 +81,7 @@ public class WineryServiceImpl implements WineryService{
 //        this.userService.save(user);
 
         winery.getRates().add(newRate);
-        int sumRates = winery.getRates().stream().mapToInt(r -> rate).sum();
+        int sumRates = winery.getRates().stream().mapToInt(Rate::getRate).sum();
         winery.setRating((double)sumRates/winery.getRates().size());
 
         this.wineryRepository.save(winery);
