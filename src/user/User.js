@@ -6,10 +6,12 @@ import background from '../pictures/background.jpg'
 import {Link} from "react-router-dom";
 import axios from "axios";
 import user from "../pictures/user.png";
+import {useEffect} from "react";
 const User = () => {
+    const userInfo = JSON.parse(sessionStorage.getItem('user'))
     const Logout = async () => {
         const formData = new FormData();
-        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
+        formData.append('username',userInfo.username)
         const response = await axios.post(
             'http://localhost:8080/api/logout',
             formData,{
@@ -56,14 +58,11 @@ const User = () => {
         </div>
         <div id="main">
             <div id="about_us">
-                <h2>Кои сме ние?</h2>
-                <p>Ние сме група студенти, кои студираат на Факултетот за информатички науки и компјутерско инженерство,
-                    лоциран во градот Скопје.</p>
-                <h2>Целта на системот</h2>
-                <p>Целта на системот е да биде интегрирана во Google Maps за да се пребарува одредена винарија во
-                    терироријата на Македонија. Мапата треба да покажува геолокација, како и општи информации за
-                    пребараната
-                    винаријата. Дополнително, може да се напише коментар и да се остави оценка за секоја винарија.</p>
+                <h2>Корисничко име: {userInfo.username}</h2>
+                <h2>Име: {userInfo.name}</h2>
+                <h2>Презиме: {userInfo.surname}</h2>
+                <h2>Омилени винарии: {userInfo.rates}</h2>
+                <h2>Оцени: {userInfo.wineryList}</h2>
             </div>
             <img src={background} id="background-img"/>
         </div>
