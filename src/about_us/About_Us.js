@@ -28,9 +28,6 @@ const About_Us = () => {
     function InfoRedirect() {
         window.location.href="/user"
     }
-    useEffect(() => {
-        console.log(JSON.parse(sessionStorage.getItem('user')));
-    });
     return(
         <body>
         <div id="nav-bar">
