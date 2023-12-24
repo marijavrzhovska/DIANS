@@ -108,6 +108,7 @@ p {
     cursor: pointer;
     border: none;
     border-radius: 3px;
+    margin-left: 10px;
 }
 
 .winery-result button:hover {

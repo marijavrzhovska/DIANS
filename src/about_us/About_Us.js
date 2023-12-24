@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import user from "../pictures/user.png";
 import axios from "axios";
 import User from "../user/User";
+import {useEffect} from "react";
 const About_Us = () => {
     const Logout = async () => {
         const formData = new FormData();
@@ -27,7 +28,9 @@ const About_Us = () => {
     function InfoRedirect() {
         window.location.href="/user"
     }
-
+    useEffect(() => {
+        console.log(JSON.parse(sessionStorage.getItem('user')));
+    });
     return(
         <body>
         <div id="nav-bar">

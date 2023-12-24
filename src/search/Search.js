@@ -19,6 +19,8 @@ const center = {
 const Search = () =>{
     const [city,setCity] = useState('')
     const [name,setName] = useState('')
+    const [id,setId] = useState('');
+    const [rating,setRating] = useState('')
     const [wineries,setWineries] = useState([]);
     const handleSubmit = event => {
         event.preventDefault();
@@ -38,7 +40,7 @@ const Search = () =>{
     };
     const Logout = async () => {
         const formData = new FormData();
-        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username)
+        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username);
         const response = await axios.post(
             'http://localhost:8080/api/logout',
         formData,{
@@ -50,6 +52,25 @@ const Search = () =>{
         sessionStorage.removeItem('user');
         alert(response.data)
         window.location.href="/";
+    }
+    const submitRating = async(e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('id',id);
+        formData.append('username',JSON.parse(sessionStorage.getItem('user')).username);
+        formData.append('rate',rating);
+        try {
+            const response = await axios.post('http://localhost:8080/api/add-rating',formData,{
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            console.log(response.data);
+            // Handle success, e.g., redirect to another page
+        } catch (error) {
+            console.log('Registration failed: ' + error.response.data);
+            // Handle error, e.g., display an error message
+        }
     }
     function InfoRedirect() {
         window.location.href="/user"
@@ -123,6 +144,17 @@ const Search = () =>{
                                 lng: winery.longitude,
                                 lat: winery.latitude,
                             }}>Посети</Link>
+                        <br/>
+                        {sessionStorage.getItem('user') ? (
+                            <form id="rating" onSubmit={submitRating}>
+                                <label htmlFor="rating">Оценка: </label>
+                                <input type="number" id="rating" onChange={e=>{
+                                    setRating(e.target.value);
+                                    setId(winery.id);
+                                }}/>
+                                <button type="submit">Објави</button>
+                            </form>
+                        ) : (null)}
                     </div>
                 ))}
             </div>
@@ -130,7 +162,7 @@ const Search = () =>{
             <div id="map">
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
-                    zoom={9}
+                    zoom={8}
                     center={center}>
                     {wineries.map(winery => (
                         <MarkerF position={{

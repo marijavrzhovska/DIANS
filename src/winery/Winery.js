@@ -90,6 +90,19 @@ const Winery = () =>{
                     <p>Контакт број: {winery.phone}</p>
                     <p>Вебстрана: <a href={winery.website}>{winery.website}</a></p>
                     <p>Опис: {winery.description}</p>
+                    {sessionStorage.getItem('user') ? (
+                        <div>
+                            <p>Додади коментар:</p>
+                            <form id="add-comment">
+                                <input type="text" id="comment-box"/>
+                                <button type="submit" id="comment-button">Објави</button>
+                            </form>
+                        </div>
+                    ) : (null)}
+                    <div id="comments">
+                        <p>Коментари:</p>
+
+                    </div>
                 </div>
             <div id="map">
                 <GoogleMap

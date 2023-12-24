@@ -69,8 +69,19 @@ p {
 }
 #desc{
     width: 50%;
-    height: 80%;
+    height: 800px;
     overflow-y: scroll;
     padding-top: 10px;
     padding-right: 10px;
+}
+#comment-box{
+    width: 700px;
+    height: 300px;
+    margin-left: 15px;
+}
+#comment-button{
+    display: block;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 20px;
 }
