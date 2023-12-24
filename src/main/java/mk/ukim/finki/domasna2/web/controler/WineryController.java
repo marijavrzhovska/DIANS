@@ -41,11 +41,11 @@ public class WineryController {
         return new ResponseEntity<>(userService.findByUsername(username).getWineryList(), HttpStatus.OK);
     }
 
-    @GetMapping("/comments")
+    @GetMapping("/{id}/comments")
     public ResponseEntity<Object> getCommentsForWinery(@PathVariable Long id){
         try{
             return new ResponseEntity<>(wineryService.findById(id).get().getComments(), HttpStatus.OK);
-        }catch (  WineryDoesNotExistsException ex){
+        }catch (WineryDoesNotExistsException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
